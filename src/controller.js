@@ -1,34 +1,43 @@
+import {checkLocalStorage} from './helpers';
 export default class {
-    constructor(mainSlideView) {
-        this.mainSlideView = mainSlideView;
+    constructor(url, mainpageView) {
+        this.url = url;
+        this.mainpageView = mainpageView;
     }
 
     setView() {
+        this.fetchMainpage(this.url);
+    }
+
+    async fetchMainpage(url) {
+        const data = await checkLocalStorage(url);
         this
-            .mainSlideView
+            .mainpageView
+            .render('category', data)
             .bind('transitionend')
             .bind('slidesNavi')
             .bind('autoplay')
+            .bind('more')
             .on('@move', e => this.moveSlide(e.detail))
             .on('@transitionend', e => this.resetSlide(e.detail));
     }
 
     moveSlide({index, direction}) {
         this
-            .mainSlideView
+            .mainpageView
             .setIndex(index += direction)
             .showSlides({Immediately: false});
     }
 
     resetSlide({index, thresHoldL, thresHoldR}) {
-        if (index === thresHoldL) {
+        if (index <= thresHoldL) {
             this
-                .mainSlideView
+                .mainpageView
                 .setIndex(thresHoldR - 1)
                 .showSlides({Immediately: true});
-        } else if (index === thresHoldR) {
+        } else if (index >= thresHoldR) {
             this
-                .mainSlideView
+                .mainpageView
                 .setIndex(thresHoldL + 1)
                 .showSlides({Immediately: true});
         }

@@ -10,6 +10,9 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\-tpl.html$/,
+                loader: 'handlebars-loader'
+            }, {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /(node_modules)/,

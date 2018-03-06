@@ -1,3 +1,4 @@
+import categoryTemplate from '../template/category-tpl.html';
 import {throttle} from '../helpers';
 import View from './View.js';
 
@@ -40,10 +41,48 @@ export default class extends View {
                         direction: 1
                     });
                 }, this.state.autoplaySpeed);
+            },
+            more: () => {
+                this.delegate('.more > .btn', 'click', () => this.renderProduct());
             }
         };
 
         bindCommands[bindCmd]();
+        return this;
+    }
+
+    render(viewCmd, ...params) {
+        const viewCommands = {
+            category: () => {
+                this.category(...params);
+            }
+        };
+
+        viewCommands[viewCmd]();
+        return this;
+    }
+
+    category(data) {
+        this
+            .fetchProduct(data)
+            .renderProduct();
+    }
+
+    fetchProduct(data) {
+        this.categoryList = data.map(item => {
+            const {fileId, name, saveFileName, placeName, description} = item;
+            return categoryTemplate({fileId, name, saveFileName, placeName, description});
+        });
+        return this;
+    }
+
+    renderProduct() {
+        if (this.categoryList.length) {
+            const lst_event_boxEl = this.qsa('.lst_event_box');
+            lst_event_boxEl[0].insertAdjacentHTML('beforeend', this.categoryList.splice(0, 2));
+            lst_event_boxEl[1].insertAdjacentHTML('beforeend', this.categoryList.splice(0, 2));
+        }
+        this.qs('.more').style.display = this.categoryList.length ? 'block': 'none';
         return this;
     }
 
