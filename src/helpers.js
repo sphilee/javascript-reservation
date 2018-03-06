@@ -1,80 +1,4 @@
 /**
- * Delegates event to a selector.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-function _delegate(element, selector, type, callback, useCapture) {
-    var listenerFn = listener.apply(this, arguments);
-
-    element.addEventListener(type, listenerFn, useCapture);
-
-    return {
-        destroy: function () {
-            element.removeEventListener(type, listenerFn, useCapture);
-        }
-    };
-}
-
-/**
- * Delegates event to a selector.
- *
- * @param {Element|String|Array} [elements]
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @param {Boolean} useCapture
- * @return {Object}
- */
-export function delegate(elements, selector, type, callback, useCapture) {
-    // Handle the regular Element usage
-    if (typeof elements.addEventListener === 'function') {
-        return _delegate.apply(null, arguments);
-    }
-
-    // Handle Element-less usage, it defaults to global delegation
-    if (typeof type === 'function') {
-        // Use `document` as the first parameter, then apply arguments
-        // This is a short way to .unshift `arguments` without running into deoptimizations
-        return _delegate.bind(null, document).apply(null, arguments);
-    }
-
-    // Handle Selector-based usage
-    if (typeof elements === 'string') {
-        elements = document.querySelectorAll(elements);
-    }
-
-    // Handle Array-like based usage
-    return Array.prototype.map.call(elements, function (element) {
-        return _delegate(element, selector, type, callback, useCapture);
-    });
-}
-
-/**
- * Finds closest match and invokes callback.
- *
- * @param {Element} element
- * @param {String} selector
- * @param {String} type
- * @param {Function} callback
- * @return {Function}
- */
-function listener(element, selector, type, callback) {
-    return function (e) {
-        e.delegateTarget = e.target.closest(selector);
-
-        if (e.delegateTarget) {
-            callback.call(element, e);
-        }
-    };
-}
-
-
-/**
  * AJAX request.
  *
  * @param {String} url
@@ -111,38 +35,6 @@ export function throttle(func, limit) {
     };
 }
 
-/**
- * acceleration until halfway, then deceleration
- *
- * @param {Number} t current time
- * @param {Number} b start value
- * @param {Number} c change in value
- * @param {Number} d duration
- * @return {Number} new scrollY
- */
-
-function easeInOutQuad(t, b, c, d) {
-    t /= d / 2;
-    if (t < 1) return c / 2 * t * t + b;
-    t--;
-    return -c / 2 * (t * (t - 2) - 1) + b;
-}
-
-/**
- * accelerating from zero velocity
- *
- * @param {Number} t current time
- * @param {Number} b start value
- * @param {Number} c change in value
- * @param {Number} d duration
- * @return {Number} new scrollY
- */
-
-function easeInQuad(t, b, c, d) {
-    t /= d / 2;
-    return c / 2 * t * t + b;
-}
-
 export function getLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
@@ -156,23 +48,6 @@ function isValid(receivedTime, thresholdHour) {
     const currentTime = Date.now();
     const elapsedTime = (currentTime - receivedTime) / 1000 / 60 / 60;
     return elapsedTime < thresholdHour;
-}
-
-export function moveScroll(to) {
-    const start = scrollY;
-    const change = to - start;
-    const duration = Math.abs(change / 4);
-    const increment = 20;
-    let currentTime = 0;
-
-    const animateScroll = () => {
-        currentTime += increment;
-        let newY = easeInQuad(currentTime, start, change, duration);
-        scrollTo(0, newY);
-        if (currentTime < duration) requestAnimationFrame(animateScroll);
-    };
-
-    requestAnimationFrame(animateScroll);
 }
 
 const fetchJSONP = (unique => url =>
