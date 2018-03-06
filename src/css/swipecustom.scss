@@ -1,0 +1,42 @@
+.container_visual {
+  overflow: hidden;
+}
+
+.visual_img {
+  position: relative;
+  width: 100%;
+  -webkit-transform: translate3d(-100%, 0px, 0px);
+  transform: translate3d(-100%, 0px, 0px);
+}
+
+.section_visual .group_visual .container_visual .visual_img li.item {
+  width: 100% !important;
+  position: relative !important;
+  top: 0 !important;
+}
+
+.slides_navi {
+  >a {
+    position: absolute;
+    top: 64px;
+    width: 19px;
+    height: 46px;
+    background: url(https://cdn.bmf.kr/web/common/btn_prds_thumb_slides_navi.png) no-repeat center center;
+  }
+  >.slides_prev {
+    left: 1%;
+    background-position: left top;
+    &:hover,
+    &:focus {
+      background-position: left -52px;
+    }
+  }
+  >.slides_next {
+    right: 1%;
+    background-position: right top;
+    &:hover,
+    &:focus {
+      background-position: right -52px;
+    }
+  }
+}
