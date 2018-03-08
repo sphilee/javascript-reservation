@@ -30,7 +30,7 @@ export default class {
         this
             .mainpageView
             .setCategoryIndex(index)
-            .setData()
+            .setCategoryData()
             .renderCategory();
     }
 
