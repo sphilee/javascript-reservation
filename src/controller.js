@@ -41,10 +41,10 @@ export default class {
             .showSlides({Immediately: false});
     }
 
-    resetSlide({index, thresHoldL, thresHoldR}) {
-        if (index <= thresHoldL) {
+    resetSlide({slideIndex, thresHoldL, thresHoldR}) {
+        if (slideIndex <= thresHoldL) {
             this.ImmediatelyMoveSlide(thresHoldR - 1);
-        } else if (index >= thresHoldR) {
+        } else if (slideIndex >= thresHoldR) {
             this.ImmediatelyMoveSlide(thresHoldL + 1);
         }
     }

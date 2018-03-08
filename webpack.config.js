@@ -1,11 +1,12 @@
 module.exports = {
     context: __dirname + '/src',
     entry: {
-        app: './app.js'
+        mainpage: ['./mainpage.js'],
+        reserve: ['./reserve.js']
     },
     output: {
         path: __dirname + '/dist',
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
