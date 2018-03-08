@@ -17,7 +17,8 @@ export default class extends View {
             autoplaySpeed: 2000,
             clicked: false,
             categoryIndex: 0,
-            categoryList: []
+            categoryList: [],
+            data: []
         };
     }
 
@@ -45,24 +46,9 @@ export default class extends View {
                 this.delegate('.more > .btn', 'click', () => this.renderProduct());
             },
             eventTab: () => {
-                this.delegate('.event_tab_lst > .item', 'click', e => {
-                    const targetIndex = +e.delegateTarget.dataset.category;
-                    Array
-                        .from(this.categoryTabListEl)
-                        .forEach(tab => tab.className = +tab.parentNode.dataset.category === targetIndex
-                            ? 'anchor active'
-                            : 'anchor');
-                    const targetData = targetIndex
-                        ? this
-                            .state
-                            .data
-                            .filter(item => item.fileId === targetIndex)
-                        : this.state.data;
-                    this
-                        .setCategoryIndex(targetIndex)
-                        .renderSelectedBox()
-                        .renderCategory(targetData);
-                });
+                this.delegate('.event_tab_lst > .item', 'click', e => this.emit('@tab', {
+                    index: + e.delegateTarget.dataset.category
+                }));
             }
         };
 
@@ -83,9 +69,26 @@ export default class extends View {
 
     category(data) {
         this
-            .setData(data)
+            .setInitData(data)
+            .renderCategory();
+    }
+
+    renderCategory() {
+        this
+            .renderSelectedTab()
             .renderSelectedBox()
-            .renderCategory(data);
+            .renderCount()
+            .renderContents();
+        return this;
+    }
+
+    renderSelectedTab() {
+        Array
+            .from(this.categoryTabListEl)
+            .forEach(tab => tab.className = +tab.parentNode.dataset.category === this.state.categoryIndex
+                ? 'anchor active'
+                : 'anchor');
+        return this;
     }
 
     renderSelectedBox() {
@@ -97,28 +100,28 @@ export default class extends View {
         return this;
     }
 
-    renderCategory(data) {
+    renderContents() {
         const {categoryList, categoryIndex} = this.state;
-        this.renderCount(data.length);
         if (!categoryList[categoryIndex]) {
             this
-                .fetchProduct(data)
+                .fetchProduct()
                 .renderProduct();
         }
         return this;
     }
 
-    fetchProduct(data) {
-        const {categoryList, categoryIndex} = this.state;
-        categoryList[categoryIndex] = data.map(item => {
+    fetchProduct() {
+        const {data, categoryList, categoryIndex} = this.state;
+        categoryList[categoryIndex] = data[categoryIndex].map(item => {
             const {fileId, name, saveFileName, placeName, description} = item;
             return categoryTemplate({fileId, name, saveFileName, placeName, description});
         });
         return this;
     }
 
-    renderCount(count) {
-        this.countEl.innerHTML = count + "개";
+    renderCount() {
+        const {data, categoryIndex} = this.state;
+        this.countEl.innerHTML = data[categoryIndex].length + "개";
         return this;
     }
 
@@ -129,7 +132,10 @@ export default class extends View {
             lst_event_boxEl[0].insertAdjacentHTML('beforeend', categoryList[categoryIndex].splice(0, 2));
             lst_event_boxEl[1].insertAdjacentHTML('beforeend', categoryList[categoryIndex].splice(0, 2));
         }
-        this.qs('.active .more').style.display = categoryList[categoryIndex].length
+        this
+            .qs('.active .more')
+            .style
+            .display = categoryList[categoryIndex].length
             ? 'block'
             : 'none';
         return this;
@@ -162,8 +168,19 @@ export default class extends View {
         }, 3000);
     }
 
-    setData(data) {
-        this.state.data = data;
+    setData() {
+        const {data, categoryIndex} = this.state;
+        if (categoryIndex) {
+            data[categoryIndex] = data[0].filter(item => item.fileId === categoryIndex);
+        }
+        return this;
+    }
+
+    setInitData(targetData) {
+        const {data, categoryIndex} = this.state;
+        if (!data[categoryIndex]) {
+            data[categoryIndex] = targetData;
+        }
         return this;
     }
 

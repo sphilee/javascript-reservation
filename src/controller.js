@@ -22,7 +22,16 @@ export default class {
             .bind('more')
             .bind('eventTab')
             .on('@move', e => this.moveSlide(e.detail))
-            .on('@transitionend', e => this.resetSlide(e.detail));
+            .on('@transitionend', e => this.resetSlide(e.detail))
+            .on('@tab', e => this.seletedTab(e.detail));
+    }
+
+    seletedTab({index}) {
+        this
+            .mainpageView
+            .setCategoryIndex(index)
+            .setData()
+            .renderCategory();
     }
 
     moveSlide({index, direction}) {
