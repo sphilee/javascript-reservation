@@ -11,7 +11,7 @@ export default class extends View {
         this.countEl = this.qs('.pink');
         this.cloneNodes();
         this.state = {
-            index: 1,
+            slideIndex: 1,
             thresHoldL: 0,
             thresHoldR: this.imgListEl.childElementCount - 1,
             autoplaySpeed: 2000,
@@ -30,7 +30,7 @@ export default class extends View {
             slidesNavi: () => {
                 this.delegate('.slides_navi > a', 'click', throttle(e => {
                     this.emit('@move', {
-                        index: this.state.index,
+                        index: this.state.slideIndex,
                         direction: + e.delegateTarget.dataset.direction
                     });
                     this.checkClick();
@@ -38,7 +38,7 @@ export default class extends View {
             },
             autoplay: () => {
                 setInterval(() => this.state.clicked || this.emit('@move', {
-                    index: this.state.index,
+                    index: this.state.slideIndex,
                     direction: 1
                 }), this.state.autoplaySpeed);
             },
@@ -189,8 +189,8 @@ export default class extends View {
         return this;
     }
 
-    setIndex(index) {
-        this.state.index = index;
+    setSlideIndex(index) {
+        this.state.slideIndex = index;
         return this;
     }
 
@@ -198,7 +198,7 @@ export default class extends View {
         this.imgListEl.style.transitionDuration = Immediately
             ? '0s'
             : '0.5s';
-        this.imgListEl.style.transform = `translateX(${ - this.state.index * 100}%)`;
+        this.imgListEl.style.transform = `translateX(${ - this.state.slideIndex * 100}%)`;
         return this;
     }
 

@@ -37,7 +37,7 @@ export default class {
     moveSlide({index, direction}) {
         this
             .mainpageView
-            .setIndex(index += direction)
+            .setSlideIndex(index += direction)
             .showSlides({Immediately: false});
     }
 
@@ -52,7 +52,7 @@ export default class {
     ImmediatelyMoveSlide(index) {
         this
             .mainpageView
-            .setIndex(index)
+            .setSlideIndex(index)
             .showSlides({Immediately: true});
 
     }
