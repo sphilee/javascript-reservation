@@ -63,4 +63,20 @@ export default class extends View {
         this.totalEl.innerHTML = total;
     }
 
+    addError(name) {
+        if(name ==='phone'){
+            this.phoneEl.classList.add('error');
+        } else if(name === 'email'){
+            this.emailEl.classList.add('error');
+        }
+    }
+    
+    removeError(name) {
+        if(name ==='phone'){
+            this.phoneEl.classList.remove('error');
+        } else if(name === 'email'){
+            this.emailEl.classList.remove('error');
+        }
+    }
+
 }

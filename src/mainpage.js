@@ -1,7 +1,7 @@
 import './css/swipecustom.scss';
 import 'babel-polyfill';
 
-import Controller from './controller';
+import Controller from './mainpage-controller';
 
 const url = 'https://cdn.rawgit.com/code-squad/javascript-reservation/master/mock/main_produc' +
         'ts.json';

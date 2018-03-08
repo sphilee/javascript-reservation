@@ -110,11 +110,11 @@ export function throttle(func, limit) {
     };
 }
 
-export function getLocalStorage(key) {
+function getLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
 }
 
-export function setLocalStorage(key, value) {
+function setLocalStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value));
     return value.data;
 }

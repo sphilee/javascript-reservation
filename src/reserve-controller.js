@@ -54,11 +54,25 @@ export default class {
     }
 
     setPhone({number}) {
-        var phoneRegEx = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+        const phoneRegEx = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
         if (number.match(phoneRegEx)) {
+            this.agreementView.removeError('phone');
             personModel.setPhone(number);
         } else {
+            this.agreementView.addError('phone');
             personModel.setPhone(null);
+        }
+        return this;
+    }
+
+    setEmail({email}) {
+        const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (email.match(emailRegEx)) {
+            this.agreementView.removeError('email');
+            personModel.setEmail(email);
+        } else {
+            this.agreementView.addError('email');
+            personModel.setEmail(null);
         }
         return this;
     }
@@ -72,12 +86,6 @@ export default class {
         personModel.setName(name);
         return this;
     }
-
-    setEmail({email}) {
-        personModel.setEmail(email);
-        return this;
-    }
-
     checkForm(){
         if(personModel.isValid() && ticketModel.getTotal()){
             this.reserveView.ableButton();
