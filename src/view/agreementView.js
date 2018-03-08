@@ -6,6 +6,10 @@ export default class extends View {
         super(el);
         this.totalEl = this.qs('#totalCount');
         this.fieldEl = this.qs('#datepicker');
+        this.checkerEl = this.qs('.chk_agree');
+        this.phoneEl = this.qs('.tel');
+        this.emailEl = this.qs('.email');
+        this.nameEl = this.qs('.name');
     }
 
     bind(bindCmd) {
@@ -28,6 +32,26 @@ export default class extends View {
                         this.fieldEl.innerHTML = picker.getMoment().format('YYYY.M.D');
                     }
                 });
+            },
+            checker: ()=>{
+                this.checkerEl.addEventListener('click', e => this.emit('@check',{
+                    checked : e.currentTarget.checked 
+                }));
+            },
+            phone : ()=>{
+                this.phoneEl.addEventListener('blur',e => this.emit('@phone',{
+                    number : e.currentTarget.value 
+                }));
+            },
+            name : ()=>{
+                this.nameEl.addEventListener('blur',e => this.emit('@name',{
+                    name : e.currentTarget.value 
+                }));
+            },
+            email : ()=>{
+                this.emailEl.addEventListener('blur',e => this.emit('@email',{
+                    email : e.currentTarget.value 
+                }));
             }
         };
 

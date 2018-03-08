@@ -34,14 +34,4 @@ export default class {
         this.el.dispatchEvent(evt);
         return this;
     }
-
-    hide() {
-        this.el.style.display = 'none';
-        return this;
-    }
-
-    show() {
-        this.el.style.display = 'block';
-        return this;
-    }
 }
