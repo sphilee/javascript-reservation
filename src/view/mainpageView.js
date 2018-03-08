@@ -98,8 +98,9 @@ export default class extends View {
     }
 
     renderCategory(data) {
+        const {categoryList, categoryIndex} = this.state;
         this.renderCount(data.length);
-        if (!this.state.categoryList[this.state.categoryIndex]) {
+        if (!categoryList[categoryIndex]) {
             this
                 .fetchProduct(data)
                 .renderProduct();
@@ -108,7 +109,8 @@ export default class extends View {
     }
 
     fetchProduct(data) {
-        this.state.categoryList[this.state.categoryIndex] = data.map(item => {
+        const {categoryList, categoryIndex} = this.state;
+        categoryList[categoryIndex] = data.map(item => {
             const {fileId, name, saveFileName, placeName, description} = item;
             return categoryTemplate({fileId, name, saveFileName, placeName, description});
         });
@@ -121,15 +123,13 @@ export default class extends View {
     }
 
     renderProduct() {
-        if (this.state.categoryList[this.state.categoryIndex].length) {
+        const {categoryList, categoryIndex} = this.state;
+        if (categoryList[categoryIndex].length) {
             const lst_event_boxEl = this.qsa('.active .lst_event_box');
-            lst_event_boxEl[0].insertAdjacentHTML('beforeend', this.state.categoryList[this.state.categoryIndex].splice(0, 2));
-            lst_event_boxEl[1].insertAdjacentHTML('beforeend', this.state.categoryList[this.state.categoryIndex].splice(0, 2));
+            lst_event_boxEl[0].insertAdjacentHTML('beforeend', categoryList[categoryIndex].splice(0, 2));
+            lst_event_boxEl[1].insertAdjacentHTML('beforeend', categoryList[categoryIndex].splice(0, 2));
         }
-        this
-            .qs('.active .more')
-            .style
-            .display = this.state.categoryList[this.state.categoryIndex].length
+        this.qs('.active .more').style.display = categoryList[categoryIndex].length
             ? 'block'
             : 'none';
         return this;
