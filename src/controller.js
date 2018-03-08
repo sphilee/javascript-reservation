@@ -1,8 +1,10 @@
 import {checkLocalStorage, delegate} from './helpers';
+import MainpageView from './view/mainpageView';
+
 export default class {
-    constructor(url, mainpageView) {
+    constructor(url) {
         this.url = url;
-        this.mainpageView = mainpageView;
+        this.mainpageView = new MainpageView('.event');
     }
 
     setView() {
