@@ -98,10 +98,10 @@ export default class extends View {
     }
 
     renderCategory(data) {
+        this.renderCount(data.length);
         if (!this.state.categoryList[this.state.categoryIndex]) {
             this
                 .fetchProduct(data)
-                .renderCount()
                 .renderProduct();
         }
         return this;
@@ -115,8 +115,8 @@ export default class extends View {
         return this;
     }
 
-    renderCount() {
-        this.countEl.innerHTML = this.state.categoryList[this.state.categoryIndex].length + "개";
+    renderCount(count) {
+        this.countEl.innerHTML = count + "개";
         return this;
     }
 
