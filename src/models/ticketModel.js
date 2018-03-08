@@ -26,8 +26,10 @@ export default {
         return Promise.resolve(this.data);
     },
 
-    getSize() {
-        return this.data.length;
+    getTotal() {
+        return this
+            .data
+            .reduce((acc, cur) => acc + cur.count, 0);
     },
 
     addCount(id, sum) {
