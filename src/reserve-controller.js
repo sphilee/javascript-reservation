@@ -2,19 +2,10 @@ import {delegate} from './helpers';
 import ticketModel from './models/ticketModel';
 import BookingTicketView from './view/bookingTicketView';
 import AgreementView from './view/agreementView';
-import Pikaday from 'pikaday';
 export default class {
     constructor() {
         this.bookingTicketView = new BookingTicketView('.section_booking_ticket');
         this.agreementView = new AgreementView('.section_booking_form');
-        const field = document.getElementById('datepicker');
-        this.picker = new Pikaday({
-            field,
-            format: 'YYYY-MM-DD',
-            onSelect: () => {
-                field.innerHTML = this.picker.getMoment().format('YYYY.M.D');
-            }
-        });
     }
 
     setView() {
@@ -26,7 +17,8 @@ export default class {
 
         this
             .agreementView
-            .bind('agreement');
+            .bind('agreement')
+            .bind('pikaday');
 
         delegate('body', '.gototop', 'click', () => document.documentElement.scrollTop = 0);
         delegate('body', 'a', 'click', e => e.preventDefault());
