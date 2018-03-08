@@ -1,4 +1,4 @@
-import {checkLocalStorage} from './helpers';
+import {checkLocalStorage, delegate} from './helpers';
 export default class {
     constructor(url, mainpageView) {
         this.url = url;
@@ -7,6 +7,7 @@ export default class {
 
     setView() {
         this.fetchMainpage(this.url);
+        delegate('body', 'a', 'click', e => e.preventDefault());
     }
 
     async fetchMainpage(url) {
@@ -18,6 +19,7 @@ export default class {
             .bind('slidesNavi')
             .bind('autoplay')
             .bind('more')
+            .bind('eventTab')
             .on('@move', e => this.moveSlide(e.detail))
             .on('@transitionend', e => this.resetSlide(e.detail));
     }
@@ -31,16 +33,18 @@ export default class {
 
     resetSlide({index, thresHoldL, thresHoldR}) {
         if (index <= thresHoldL) {
-            this
-                .mainpageView
-                .setIndex(thresHoldR - 1)
-                .showSlides({Immediately: true});
+            this.ImmediatelyMoveSlide(thresHoldR - 1);
         } else if (index >= thresHoldR) {
-            this
-                .mainpageView
-                .setIndex(thresHoldL + 1)
-                .showSlides({Immediately: true});
+            this.ImmediatelyMoveSlide(thresHoldL + 1);
         }
+    }
+
+    ImmediatelyMoveSlide(index) {
+        this
+            .mainpageView
+            .setIndex(index)
+            .showSlides({Immediately: true});
+
     }
 
 }
