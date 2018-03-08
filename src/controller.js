@@ -8,6 +8,7 @@ export default class {
     setView() {
         this.fetchMainpage(this.url);
         delegate('body', 'a', 'click', e => e.preventDefault());
+        delegate('body', '.gototop', 'click', () => document.documentElement.scrollTop = 0);
     }
 
     async fetchMainpage(url) {

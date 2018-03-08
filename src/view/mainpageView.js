@@ -81,14 +81,6 @@ export default class extends View {
         return this;
     }
 
-    checkClick() {
-        this.state.clicked = true;
-        this.clickClear && clearTimeout(this.clickClear);
-        this.clickClear = setTimeout(() => {
-            this.state.clicked = false;
-        }, 3000);
-    }
-
     category(data) {
         this
             .setData(data)
@@ -102,16 +94,6 @@ export default class extends View {
             .forEach(food => food.className = this.state.categoryIndex === + food.dataset.category
                 ? 'wrap_event_box active'
                 : 'wrap_event_box');
-        return this;
-    }
-
-    setData(data) {
-        this.state.data = data;
-        return this;
-    }
-
-    setCategoryIndex(index) {
-        this.state.categoryIndex = index;
         return this;
     }
 
@@ -169,6 +151,24 @@ export default class extends View {
         this
             .imgListEl
             .insertBefore(lastClone, this.imgListEl.firstElementChild);
+        return this;
+    }
+
+    checkClick() {
+        this.state.clicked = true;
+        this.clickClear && clearTimeout(this.clickClear);
+        this.clickClear = setTimeout(() => {
+            this.state.clicked = false;
+        }, 3000);
+    }
+
+    setData(data) {
+        this.state.data = data;
+        return this;
+    }
+
+    setCategoryIndex(index) {
+        this.state.categoryIndex = index;
         return this;
     }
 
