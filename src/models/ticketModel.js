@@ -26,6 +26,10 @@ export default {
         return Promise.resolve(this.data);
     },
 
+    getSize() {
+        return this.data.length;
+    },
+
     addCount(id, sum) {
         const data = this
             .data

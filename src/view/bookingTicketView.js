@@ -5,7 +5,6 @@ export default class extends View {
     constructor(el) {
         super(el);
         this.qtyList = this.qsa('.count_control');
-        this.state = {};
     }
 
     bind(bindCmd) {
