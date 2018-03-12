@@ -1,9 +1,11 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
     context: __dirname + '/src',
     entry: {
         mainpage: ['./mainpage.js'],
         reserve: ['./reserve.js']
     },
+    plugins: [new CleanWebpackPlugin(['dist'])],
     output: {
         path: __dirname + '/dist',
         filename: '[name].js'
@@ -11,15 +13,11 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\-tpl.html$/,
-                loader: 'handlebars-loader'
-            }, {
                 test: /\.js$/,
                 loader: 'babel-loader',
                 exclude: /(node_modules)/,
                 options: {
-                    presets: ['@babel/preset-env'],
-                    compact: true
+                    presets: ['@babel/preset-env']
                 }
             }, {
                 test: /\.css$/,
@@ -36,6 +34,5 @@ module.exports = {
                 }
             }
         ]
-    },
-    devtool: '#inline-source-map'
+    }
 };
