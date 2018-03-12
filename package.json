@@ -20,6 +20,7 @@
   "homepage": "https://github.com/sphilee/javascript-reservation#readme",
   "dependencies": {
     "lodash": "^4.17.4",
+    "lodash.throttle": "^4.1.1",
     "pikaday": "^1.7.0"
   },
   "devDependencies": {

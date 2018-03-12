@@ -1,63 +1,57 @@
 import {delegate} from '../shared/helpers';
-import MainpageView from './view/mainpageView';
-
+import SlideView from './view/slideView';
+import TabView from './view/tabView';
 export default class {
     constructor(url) {
         this.url = url;
-        this.mainpageView = new MainpageView('.event');
+        this.slideView = new SlideView('.container_visual');
+        this.tabView = new TabView('.event');
     }
 
     setView() {
-        this.fetchMainpage(this.url);
+        this.slideView
+            .on('@move', e => this.moveSlide(e.detail))
+            .on('@transitionend', e => this.resetSlide(e.detail));
+        this.fetchTab(this.url);
+        
         delegate('body', 'a', 'click', e => e.preventDefault());
         delegate('body', '.gototop', 'click', () => document.documentElement.scrollTop = 0);
     }
 
-    async fetchMainpage(url) {
-        const response = await fetch(url);
-        const data = await response.json();
-        this
-            .mainpageView
-            .render('category', data)
-            .bind('transitionend')
-            .bind('slidesNavi')
-            .bind('autoplay')
-            .bind('more')
-            .bind('eventTab')
-            .on('@move', e => this.moveSlide(e.detail))
-            .on('@transitionend', e => this.resetSlide(e.detail))
-            .on('@tab', e => this.seletedTab(e.detail));
-    }
-
-    seletedTab({index}) {
-        this
-            .mainpageView
-            .setCategoryIndex(index)
-            .setCategoryData()
-            .renderCategory();
-    }
-
     moveSlide({index, direction}) {
-        this
-            .mainpageView
-            .setSlideIndex(index += direction)
+        this.slideView
+            .setIndex(index += direction)
             .showSlides({Immediately: false});
     }
 
-    resetSlide({slideIndex, thresHoldL, thresHoldR}) {
-        if (slideIndex <= thresHoldL) {
+    resetSlide({index, thresHoldL, thresHoldR}) {
+        if (index <= thresHoldL) {
             this.ImmediatelyMoveSlide(thresHoldR - 1);
-        } else if (slideIndex >= thresHoldR) {
+        } else if (index >= thresHoldR) {
             this.ImmediatelyMoveSlide(thresHoldL + 1);
         }
     }
 
     ImmediatelyMoveSlide(index) {
-        this
-            .mainpageView
-            .setSlideIndex(index)
+        this.slideView
+            .setIndex(index)
             .showSlides({Immediately: true});
-
     }
+
+    async fetchTab(url) {
+        const response = await fetch(url);
+        const data = await response.json();
+        this.tabView
+            .render('category', data)
+            .on('@tab', e => this.seletedTab(e.detail));
+    }
+
+    seletedTab({index}) {
+        this.tabView
+            .setIndex(index)
+            .setCategoryData()
+            .renderCategory();
+    }
+
 
 }

@@ -72,23 +72,3 @@ function listener(element, selector, type, callback) {
         }
     };
 }
-/**
- * Returns a new function that, when invoked, invokes `func` at most once per `wait` milliseconds.
- *
- * @param {Function} func Function to wrap.
- * @param {Number} limit Number of milliseconds that must elapse between `func` invocations.
- * @return {Function} A new function that wraps the `func` function passed in.
- */
-
-export function throttle(func, limit) {
-    let wait = false;
-    return function () {
-        if (!wait) {
-            func.apply(null, arguments);
-            wait = true;
-            setTimeout(() => {
-                wait = false;
-            }, limit);
-        }
-    };
-}

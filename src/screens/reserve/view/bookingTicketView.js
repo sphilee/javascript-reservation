@@ -4,10 +4,11 @@ export default class extends View {
     constructor(el) {
         super(el);
         this.qtyList = this.qsa('.count_control');
+        this.registerEvent();
     }
 
-    bind(bindCmd) {
-        const bindCommands = {
+    registerEvent() {
+        const events = {
             count: () => {
                 this.delegate('.btn_plus_minus', 'click', e => e.delegateTarget.classList.contains('disabled') || this.emit('@count', {
                     sum: + e.delegateTarget.dataset.sum,
@@ -16,7 +17,7 @@ export default class extends View {
             }
         };
 
-        bindCommands[bindCmd]();
+        Object.values(events).forEach(event=>event());
         return this;
     }
 

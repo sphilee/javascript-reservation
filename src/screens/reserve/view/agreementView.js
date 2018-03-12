@@ -10,10 +10,11 @@ export default class extends View {
         this.phoneEl = this.qs('.tel');
         this.emailEl = this.qs('.email');
         this.nameEl = this.qs('.name');
+        this.registerEvent();
     }
 
-    bind(bindCmd) {
-        const bindCommands = {
+    registerEvent() {
+        const events = {
             agreement: () => {
                 this.delegate('.btn_agreement', 'click', e => {
                     const detailEl = e.delegateTarget.nextElementSibling;
@@ -55,7 +56,7 @@ export default class extends View {
             }
         };
 
-        bindCommands[bindCmd]();
+        Object.values(events).forEach(event=>event());
         return this;
     }
 

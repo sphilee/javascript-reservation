@@ -13,19 +13,10 @@ export default class {
 
     setView() {
         this.fetchTicket();
-        this
-            .bookingTicketView
-            .bind('count')
+        this.bookingTicketView
             .on('@count', e => this.calculateCount(e.detail));
 
-        this
-            .agreementView
-            .bind('agreement')
-            .bind('pikaday')
-            .bind('checker')
-            .bind('phone')
-            .bind('name')
-            .bind('email')
+        this.agreementView
             .on('@check', e => this.setAgree(e.detail).checkForm())
             .on('@phone', e => this.setPhone(e.detail).checkForm())
             .on('@name', e => this.setName(e.detail).checkForm())
@@ -36,16 +27,8 @@ export default class {
     }
 
     fetchTicket() {
-        ticketModel
-            .list()
-            .then(data => {
-                this
-                    .bookingTicketView
-                    .render(data);
-            });
-        this
-            .agreementView
-            .render(ticketModel.getTotal());
+        ticketModel.list().then(data => this.bookingTicketView.render(data));
+        this.agreementView.render(ticketModel.getTotal());
     }
 
     calculateCount({id, sum}) {
