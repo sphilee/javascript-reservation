@@ -34,4 +34,9 @@ export default class {
         this.el.dispatchEvent(evt);
         return this;
     }
+
+    template(templateid, data) {
+        return document.getElementById(templateid).innerHTML
+            .replace(/{{(\w*)}}/g, (m, key) => data.hasOwnProperty(key) ? data[key] : "");
+    }
 }

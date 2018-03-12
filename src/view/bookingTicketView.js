@@ -1,4 +1,3 @@
-import ticketTemplate from '../template/ticket-tpl.html';
 import View from './View.js';
 
 export default class extends View {
@@ -25,26 +24,14 @@ export default class extends View {
         data.forEach((item, i) => {
             const {id, price, count} = item;
             const total = price * count;
-            const min = count
-                ? ''
-                : 'disabled';
-            const max = count < 10
-                ? ''
-                : 'disabled';
-            const color = total > 0
-                ? 'on_color'
-                : '';
-            const ticketHTML = ticketTemplate({
-                id,
-                total,
-                count,
-                min,
-                max,
-                color
-            });
-            this.qtyList[i].innerHTML = ticketHTML;
+            const min = count ? '' : 'disabled';
+            const max = count < 10 ? '' : 'disabled';
+            const color = total > 0 ? 'on_color' : '';
+            this.qtyList[i].innerHTML = this.template('ticket', {id, total, count, min, max, color});
         });
         return this;
     }
+
+    
 
 }

@@ -1,4 +1,3 @@
-import categoryTemplate from '../template/category-tpl.html';
 import {throttle} from '../helpers';
 import View from './View.js';
 
@@ -114,7 +113,7 @@ export default class extends View {
         const {categoryData, categoryHTML, categoryIndex} = this.state;
         categoryHTML[categoryIndex] = categoryData[categoryIndex].map(item => {
             const {fileId, name, saveFileName, placeName, description} = item;
-            return categoryTemplate({fileId, name, saveFileName, placeName, description});
+            return this.template("itemList", {fileId, name, saveFileName, placeName, description});
         });
         return this;
     }

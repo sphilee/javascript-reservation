@@ -166,7 +166,8 @@
                                 <div class="inline_form last">
                                     <label class="label" for="message">예매내용</label>
                                     <div class="inline_control">
-                                        <p class="inline_txt selected"><span id="datepicker">2017.2.17</span>, 총
+                                        <p class="inline_txt selected">
+                                            <span id="datepicker">2017.2.17</span>, 총
                                             <span id="totalCount"></span>매</p>
                                     </div>
                                 </div>
@@ -260,6 +261,19 @@
             <span class="copyright">© NAVER Corp.</span>
         </div>
     </footer>
+
+    <template id="ticket">
+        <div class="clearfix" data-id="{{id}}">
+            <a href="#" class="btn_plus_minus spr_book2 ico_minus3 {{min}}" title="빼기" data-sum="-1"> </a>
+            <input type="tel" class="count_control_input {{min}}" value="{{count}}" readonly title="수량">
+            <a href="#" class="btn_plus_minus spr_book2 ico_plus3 {{max}}" title="더하기" data-sum="1">
+            </a>
+        </div>
+        <div class="individual_price {{color}}">
+            <span class="total_price">{{total}}</span>
+            <span class="price_type">원</span>
+        </div>
+    </template>
     <script src="../../dist/reserve.js"></script>
 </body>
 
