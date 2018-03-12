@@ -24,6 +24,7 @@ export default class extends View {
             },
             slidesNavi: () => {
                 this.delegate('.slides_navi > a', 'click', throttle(e => {
+                    e.preventDefault();
                     this.emit('@move', {
                         index: this.state.index,
                         direction: +e.delegateTarget.dataset.direction

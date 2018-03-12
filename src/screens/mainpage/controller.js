@@ -1,11 +1,13 @@
-import {delegate} from '../shared/helpers';
 import SlideView from './view/slideView';
 import TabView from './view/tabView';
+import GototopView from '../shared/gototopView';
+
 export default class {
     constructor(url) {
         this.url = url;
         this.slideView = new SlideView('.container_visual');
         this.tabView = new TabView('.event');
+        this.gototopView = new GototopView('.gototop');
     }
 
     setView() {
@@ -14,8 +16,6 @@ export default class {
             .on('@transitionend', e => this.resetSlide(e.detail));
         this.fetchTab(this.url);
         
-        delegate('body', 'a', 'click', e => e.preventDefault());
-        delegate('body', '.gototop', 'click', () => document.documentElement.scrollTop = 0);
     }
 
     moveSlide({index, direction}) {

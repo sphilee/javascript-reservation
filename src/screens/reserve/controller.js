@@ -1,14 +1,16 @@
-import {delegate} from '../shared/helpers';
 import ticketModel from './models/ticketModel';
 import personModel from './models/personModel';
 import BookingTicketView from './view/bookingTicketView';
 import AgreementView from './view/agreementView';
-import ReserveView from './view/reserveView';
+import ReserveButtonView from './view/reserveButtonView';
+import GototopView from '../shared/gototopView';
+
 export default class {
     constructor() {
         this.bookingTicketView = new BookingTicketView('.section_booking_ticket');
         this.agreementView = new AgreementView('.section_booking_form');
-        this.reserveView = new ReserveView('.bk_btn_wrap');
+        this.reserveButtonView = new ReserveButtonView('.bk_btn_wrap');
+        this.gototopView = new GototopView('.gototop');
     }
 
     setView() {
@@ -22,8 +24,6 @@ export default class {
             .on('@name', e => this.setName(e.detail).checkForm())
             .on('@email', e => this.setEmail(e.detail).checkForm());
 
-        delegate('body', '.gototop', 'click', () => document.documentElement.scrollTop = 0);
-        delegate('body', 'a', 'click', e => e.preventDefault());
     }
 
     fetchTicket() {
@@ -71,9 +71,9 @@ export default class {
     }
     checkForm(){
         if(personModel.isValid() && ticketModel.getTotal()){
-            this.reserveView.ableButton();
+            this.reserveButtonView.ableButton();
         } else {
-            this.reserveView.diableButton();
+            this.reserveButtonView.diableButton();
         }
     }
 

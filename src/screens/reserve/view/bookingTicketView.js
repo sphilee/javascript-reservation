@@ -10,10 +10,13 @@ export default class extends View {
     registerEvent() {
         const events = {
             count: () => {
-                this.delegate('.btn_plus_minus', 'click', e => e.delegateTarget.classList.contains('disabled') || this.emit('@count', {
-                    sum: + e.delegateTarget.dataset.sum,
-                    id: + e.delegateTarget.parentNode.dataset.id
-                }));
+                this.delegate('.btn_plus_minus', 'click', e => {
+                    e.preventDefault();
+                    e.delegateTarget.classList.contains('disabled') || this.emit('@count', {
+                        sum: + e.delegateTarget.dataset.sum,
+                        id: + e.delegateTarget.parentNode.dataset.id
+                    });
+                });
             }
         };
 
