@@ -12,7 +12,15 @@ export default class extends View {
             thresHoldL: 0,
             thresHoldR: this.slideListEl.childElementCount - 1,
             autoplaySpeed: 2000,
-            clicked: false
+            clicked: false,
+            width: window.innerWidth,
+            HSlope: ((window.innerHeight / 2) / window.innerWidth).toFixed(2) * 1,
+            startIndex: 1,
+            moveType: -1,
+            startX: -1,
+            startY: -1,
+            startTime: 0,
+            startEvent: false
         };
         this.registerEvent();
     }
@@ -37,10 +45,50 @@ export default class extends View {
                     index: this.state.index,
                     direction: 1
                 }), this.state.autoplaySpeed);
+            },
+            touch: () => {
+                this.on('touchstart', throttle(e => {
+                    this.initTouchInfo();
+                    this.state.clicked = true;
+                    this.state.startIndex = this.state.index;
+                    this.state.startX = e.changedTouches[0].pageX;
+                    this.state.startY = e.changedTouches[0].pageY;
+                    this.state.startTime = e.timeStamp;
+                    this.state.startEvent = true;
+                }, 1000));
+                this.on('touchmove', e => {
+                    if (this.state.startEvent) {
+                        this.emit('@touchmove', Object.assign(this.state, {
+                            x: e.changedTouches[0].pageX,
+                            y: e.changedTouches[0].pageY
+                        }));
+                        (this.state.moveType === 0) && e.preventDefault();
+                    }
+                });
+                this.on('touchend', e => {
+                    this.checkClick();
+                    this.state.startEvent && this.emit('@touchend', Object.assign(this.state, {
+                        x: e.changedTouches[0].pageX,
+                        y: e.changedTouches[0].pageY
+                    }));
+                });
             }
         };
 
         Object.values(events).forEach(event=>event());
+        return this;
+    }
+
+    initTouchInfo() {
+        this.state.moveType = -1;
+        this.state.startX = -1;
+        this.state.startY = -1;
+        this.state.startTime = 0;
+        this.state.startEvent = false;
+    }
+
+    setMoveType(type) {
+        this.state.moveType = type;
         return this;
     }
 

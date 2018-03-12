@@ -13,9 +13,48 @@ export default class {
     setView() {
         this.slideView
             .on('@move', e => this.moveSlide(e.detail))
-            .on('@transitionend', e => this.resetSlide(e.detail));
+            .on('@transitionend', e => this.resetSlide(e.detail))
+            .on('@touchmove', e => this.checkMoveType(e.detail))
+            .on('@touchend', e => {
+                e.detail.moveType < 0 && this.checkMoveType(e.detail);
+                this.checkDistance(e.detail);
+                this.slideView.initTouchInfo();
+            });
         this.fetchTab(this.url);
-        
+    }
+    
+    checkDistance({index, startIndex}) {
+        const Hdistance = startIndex - index;
+        if (Hdistance > 0.2) {
+            this.moveSlide({
+                index,
+                direction: Hdistance - 1
+            });
+        } else if (Hdistance < -0.2) {
+            this.moveSlide({
+                index,
+                direction: Hdistance + 1
+            });
+        } else {
+            this.moveSlide({
+                index,
+                direction: Hdistance
+            });
+        }
+    }
+
+    checkMoveType({startX, startY, startIndex, HSlope, width, x, y}) {
+        const Hdistance = (startX - x) / width;
+        this.ImmediatelyMoveSlide(startIndex + Hdistance);
+
+        const moveX = Math.abs(startX - x);
+        const moveY = Math.abs(startY - y);
+        const distance = moveX + moveY;
+        if (distance < 25) {
+            return this;
+        }
+        const slope = parseFloat((moveY / moveX).toFixed(2), 10);
+        slope > HSlope ? this.slideView.setMoveType(1) : this.slideView.setMoveType(0);
     }
 
     moveSlide({index, direction}) {
