@@ -1,15 +1,16 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
-    context: __dirname + '/src/screens',
+    context: __dirname + '/src',
     entry: {
         mainpage: ['./mainpage/index.js'],
         reserve: ['./reserve/index.js'],
         vendor: [
-            'pikaday'
+            'pikaday', 'lodash.throttle'
         ]
     },
-    plugins: [new CleanWebpackPlugin(['dist']),
+    plugins: [
+        new CleanWebpackPlugin(['dist']),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor'
         }),
@@ -25,10 +26,11 @@ module.exports = {
         rules: [{
             test: /\.js$/,
             loader: 'babel-loader',
-            exclude: /(node_modules)/,
-            options: {
-                presets: ['@babel/preset-env']
-            }
+            exclude: /(node_modules)/
+        }, {
+            test: /test\.js$/,
+            use: 'mocha-loader',
+            exclude: /node_modules/,
         }, {
             test: /\.css$/,
             use: ['style-loader', 'css-loader']
