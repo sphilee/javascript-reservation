@@ -1,4 +1,4 @@
-import {checkLocalStorage, delegate} from '../shared/helpers';
+import {delegate} from '../shared/helpers';
 import MainpageView from './view/mainpageView';
 
 export default class {
@@ -14,7 +14,8 @@ export default class {
     }
 
     async fetchMainpage(url) {
-        const data = await checkLocalStorage(url);
+        const response = await fetch(url);
+        const data = await response.json();
         this
             .mainpageView
             .render('category', data)
