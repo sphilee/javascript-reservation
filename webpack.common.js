@@ -1,9 +1,9 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
-    context: __dirname + '/src',
+    context: __dirname + '/src/screens',
     entry: {
-        mainpage: ['./mainpage.js'],
-        reserve: ['./reserve.js']
+        mainpage: ['./mainpage/index.js'],
+        reserve: ['./reserve/index.js']
     },
     plugins: [new CleanWebpackPlugin(['dist'])],
     output: {

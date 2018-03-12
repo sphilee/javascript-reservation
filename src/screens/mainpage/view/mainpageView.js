@@ -1,5 +1,5 @@
-import {throttle} from '../helpers';
-import View from './View.js';
+import {throttle} from '../../shared/helpers';
+import View from '../../shared/View';
 
 export default class extends View {
     constructor(el) {

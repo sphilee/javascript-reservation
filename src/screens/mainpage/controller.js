@@ -1,4 +1,4 @@
-import {checkLocalStorage, delegate} from './helpers';
+import {checkLocalStorage, delegate} from '../shared/helpers';
 import MainpageView from './view/mainpageView';
 
 export default class {

@@ -1,4 +1,4 @@
-import View from './View.js';
+import View from '../../shared/View';
 import Pikaday from 'pikaday';
 
 export default class extends View {

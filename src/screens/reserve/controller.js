@@ -1,4 +1,4 @@
-import {delegate} from './helpers';
+import {delegate} from '../shared/helpers';
 import ticketModel from './models/ticketModel';
 import personModel from './models/personModel';
 import BookingTicketView from './view/bookingTicketView';
