@@ -1,4 +1,5 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
     context: __dirname + '/src',
@@ -16,7 +17,19 @@ module.exports = {
         }),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'common'
-        })
+        }),
+        new HtmlWebpackPlugin({
+          chunks: ['mainpage','common','vendor'],
+          template: 'mainpage/index.html',
+          filename: 'mainpage/index.html'
+        }),
+        new HtmlWebpackPlugin({
+          chunks: ['reserve','common','vendor'],
+          template: 'reserve/index.html',
+          filename: 'reserve/index.html'
+        }),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ],
     output: {
         path: __dirname + '/dist',

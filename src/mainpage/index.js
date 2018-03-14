@@ -1,4 +1,5 @@
 import './css/swipecustom.scss';
+import '../shared/css/style.css';
 import 'babel-polyfill';
 
 import Controller from './controller';
