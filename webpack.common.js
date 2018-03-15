@@ -1,11 +1,11 @@
+const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 module.exports = {
-    context: __dirname + '/src',
     entry: {
-        mainpage: ['./mainpage/index.js'],
-        reserve: ['./reserve/index.js'],
+        mainpage: ['./src/mainpage/index.js'],
+        reserve: ['./src/reserve/index.js'],
         vendor: [
             'pikaday', 'lodash.throttle'
         ]
@@ -20,20 +20,21 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
           chunks: ['mainpage','common','vendor'],
-          template: 'mainpage/index.html',
+          template: './src/mainpage/index.html',
           filename: 'mainpage/index.html'
         }),
         new HtmlWebpackPlugin({
           chunks: ['reserve','common','vendor'],
-          template: 'reserve/index.html',
+          template: './src/reserve/index.html',
           filename: 'reserve/index.html'
         }),
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     output: {
-        path: __dirname + '/dist',
-        filename: '[name].bundle.js'
+        path: path.resolve(__dirname, 'dist'),
+        filename: '[name].bundle.js',
+        publicPath: "/"
     },
     module: {
         rules: [{

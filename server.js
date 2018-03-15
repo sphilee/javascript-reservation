@@ -12,7 +12,7 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-// Serve the files on port 3000.
+// Serve the files on port 8000.
 app.listen(8000, function () {
   console.log('Example app listening on port 8000!\n');
 });
