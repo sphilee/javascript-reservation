@@ -95,8 +95,8 @@ export default class extends View {
         const {categoryHTML, index} = this.state;
         if (categoryHTML[index].length) {
             const lst_event_boxEl = this.qsa('.active .lst_event_box');
-            lst_event_boxEl[0].insertAdjacentHTML('beforeend', categoryHTML[index].splice(0, 2));
-            lst_event_boxEl[1].insertAdjacentHTML('beforeend', categoryHTML[index].splice(0, 2));
+            lst_event_boxEl[0].insertAdjacentHTML('beforeend', categoryHTML[index].splice(0, 2).join(''));
+            lst_event_boxEl[1].insertAdjacentHTML('beforeend', categoryHTML[index].splice(0, 2).join(''));
         }
         this.qs('.active .more').style.display = categoryHTML[index].length
             ? 'block' : 'none';

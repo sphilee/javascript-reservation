@@ -115,6 +115,7 @@ export default class extends View {
     showSlides({Immediately}) {
         this.slideListEl.style.transitionDuration = Immediately ? '0s' : '0.5s';
         this.slideListEl.style.transform = `translateX(${ -this.state.index * 100}%)`;
+        this.slideListEl.dataset.index = this.state.index;
         return this;
     }
 
