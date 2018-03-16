@@ -1,4 +1,4 @@
-describe("slideView", () => {
+describe.skip("slideView", () => {
     let page;
     const autoplaySpeed = 2000;
     const timeout = 16000;

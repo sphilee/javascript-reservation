@@ -1,5 +1,4 @@
-describe("tabView", () => {
-
+describe.skip("tabView", () => {
     let page;
     const timeout = 16000;
     const url = 'http://localhost:8000/mainpage';
