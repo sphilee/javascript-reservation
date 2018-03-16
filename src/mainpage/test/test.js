@@ -85,23 +85,32 @@ describe("/mainpage", () => {
             expect(await page.$$('.active .item ')).toHaveLength(8);
         }, timeout);
 
-        test('cache item Test', async() => {
+        test('click on the more button and click on another category and check the cache data of the original category', async() => {
+            const ALL_ITEM_COUNT = 8;
+            const MUSICAL_ITEM_COUNT = 3;
             await page.goto(url);
             await page.waitForSelector('.more > .btn');
             await page.click('.more >.btn ');
+
+            let lastContent = await page.$eval('.active .item:last-child', e => e.innerHTML);
             let activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
-            expect(await page.$$('.active .item ')).toHaveLength(8);
             expect(activeIndex).toBe('0');
+            expect(await page.$$('.active .item ')).toHaveLength(ALL_ITEM_COUNT);
+            expect(lastContent).not.toHaveLength(0);
 
             await page.click('.item[data-category="2"]');
+            lastContent = await page.$eval('.active .item:last-child', e => e.innerHTML);
             activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
             expect(activeIndex).toBe('2');
-            expect(await page.$$('.active .item ')).toHaveLength(3);
+            expect(await page.$$('.active .item ')).toHaveLength(MUSICAL_ITEM_COUNT);
+            expect(lastContent).not.toHaveLength(0);
 
             await page.click('.item[data-category="0"]');
+            lastContent = await page.$eval('.active .item:last-child', e => e.innerHTML);
             activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
             expect(activeIndex).toBe('0');
-            expect(await page.$$('.active .item ')).toHaveLength(8);
+            expect(await page.$$('.active .item ')).toHaveLength(ALL_ITEM_COUNT);
+            expect(lastContent).not.toHaveLength(0);
 
         }, timeout);
 
