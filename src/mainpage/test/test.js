@@ -18,7 +18,7 @@ describe("/mainpage", () => {
         browser.close();
     });
 
-    describe("slideView", () => {
+    describe.skip("slideView", () => {
         test('initial Test', async() => {
             await page.goto(url);
             await page.waitForSelector('.visual_img');
@@ -77,7 +77,6 @@ describe("/mainpage", () => {
             expect(activeIndex).toBe('1');
         }, timeout);
 
-
         test('more click Test', async() => {
             await page.goto(url);
             await page.waitForSelector('.more > .btn');
@@ -85,7 +84,25 @@ describe("/mainpage", () => {
             expect(await page.$$('.active .item ')).toHaveLength(8);
         }, timeout);
 
-        test('click on the more button and click on another category and check the cache data of the original category', async() => {
+        test('gototop click Test', async() => {
+            await page.goto(url);
+            await page.waitForSelector('.gototop');
+            const Height = await page.evaluate(_ => window.innerHeight);
+            let scrollY = await page.evaluate(y => {
+                window.scrollTo(0, y);
+                return window.scrollY;
+            }, Height);
+            expect(scrollY).toBe(Height);
+
+            await page.click('.gototop');
+            scrollY = await page.evaluate(_ => window.scrollY);
+            expect(scrollY).toBe(0);
+
+        }, timeout);
+
+        test('click on the more button and click on another category and check the cache data ' +
+                'of the original category',
+        async() => {
             const ALL_ITEM_COUNT = 8;
             const MUSICAL_ITEM_COUNT = 3;
             await page.goto(url);
@@ -96,21 +113,27 @@ describe("/mainpage", () => {
             let activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
             expect(activeIndex).toBe('0');
             expect(await page.$$('.active .item ')).toHaveLength(ALL_ITEM_COUNT);
-            expect(lastContent).not.toHaveLength(0);
+            expect(lastContent)
+                .not
+                .toHaveLength(0);
 
             await page.click('.item[data-category="2"]');
             lastContent = await page.$eval('.active .item:last-child', e => e.innerHTML);
             activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
             expect(activeIndex).toBe('2');
             expect(await page.$$('.active .item ')).toHaveLength(MUSICAL_ITEM_COUNT);
-            expect(lastContent).not.toHaveLength(0);
+            expect(lastContent)
+                .not
+                .toHaveLength(0);
 
             await page.click('.item[data-category="0"]');
             lastContent = await page.$eval('.active .item:last-child', e => e.innerHTML);
             activeIndex = await page.$eval('.wrap_event_box.active', e => e.dataset.category);
             expect(activeIndex).toBe('0');
             expect(await page.$$('.active .item ')).toHaveLength(ALL_ITEM_COUNT);
-            expect(lastContent).not.toHaveLength(0);
+            expect(lastContent)
+                .not
+                .toHaveLength(0);
 
         }, timeout);
 
