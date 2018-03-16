@@ -17,6 +17,7 @@ export default class extends View {
         const events = {
             agreement: () => {
                 this.delegate('.btn_agreement', 'click', e => {
+                    e.preventDefault();
                     const detailEl = e.delegateTarget.nextElementSibling;
                     if (detailEl.classList.contains('open')) {
                         detailEl.classList.remove('open');
