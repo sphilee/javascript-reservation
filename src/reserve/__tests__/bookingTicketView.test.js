@@ -34,8 +34,10 @@ describe("bookingTicketView", () => {
         await page.waitForSelector('.section_booking_ticket');
 
         const SELECT1_COUNT = 0;
+        const SELECT1_COST = 10200;
         const SELECT3_COUNT = 3;
-        
+        const SELECT3_COST = 20000;
+
         let select = 3;
 
         let count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
@@ -45,16 +47,22 @@ describe("bookingTicketView", () => {
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT3_COUNT+1);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe((SELECT3_COUNT+1)*SELECT3_COST);
 
         select = 1;
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT1_COUNT);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe(SELECT1_COUNT*SELECT1_COST);
 
         await page.click(`.qty:nth-child(${select}) .ico_plus3`);
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT1_COUNT+1);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe((SELECT1_COUNT+1)*SELECT1_COST);
 
 
     }, timeout);
@@ -64,7 +72,9 @@ describe("bookingTicketView", () => {
         await page.waitForSelector('.section_booking_ticket');
 
         const SELECT2_COUNT = 10;
+        const SELECT2_COST = 6800;
         const SELECT3_COUNT = 3;
+        const SELECT3_COST = 20000;
 
         let select = 3;
 
@@ -75,16 +85,22 @@ describe("bookingTicketView", () => {
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT3_COUNT-1);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe((SELECT3_COUNT-1)*SELECT3_COST);
 
         select = 2;
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT2_COUNT);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe(SELECT2_COUNT*SELECT2_COST);
 
         await page.click(`.qty:nth-child(${select}) .ico_minus3`);
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT2_COUNT-1);
+        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        expect(totalCost).toBe((SELECT2_COUNT-1)*SELECT2_COST);
 
 
     }, timeout);
