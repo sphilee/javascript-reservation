@@ -1,4 +1,4 @@
-describe("bookingTicketView", () => {
+describe.skip("bookingTicketView", () => {
     let page;
     const timeout = 16000;
     const url = 'http://localhost:8000/reserve';

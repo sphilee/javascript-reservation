@@ -104,7 +104,8 @@ export default class extends View {
     checkClick() {
         this.state.clicked = true;
         this.clickClear && clearTimeout(this.clickClear);
-        this.clickClear = setTimeout(() => this.state.clicked = false, 3000);
+        return new Promise(resolve => this.clickClear = 
+            setTimeout(() => resolve(this.state.clicked = false), 3000));
     }
 
     setIndex(index) {
