@@ -22,7 +22,19 @@ describe("slideView unit Test", () => {
         </div>
     </div>`;
 
-        slideView = new SlideView('.container_visual');
+    //support closest
+    window.Element.prototype.closest = function (selector) {
+        var el = this;
+        while (el) {
+            if (el.matches(selector)) {
+                return el;
+            }
+            el = el.parentElement;
+        }
+    };
+
+    slideView = new SlideView('.container_visual');
+
     });
 
     test('initial', () => {
@@ -87,14 +99,86 @@ describe("slideView unit Test", () => {
     });
 
     test('showSlides', () => {
-        slideView.showSlides({Immediately:true});
-        expect(slideView.slideListEl.style.transform).toBe(`translateX(${ -slideView.state.index * 100}%)`);
+        slideView.showSlides({Immediately: true});
+        expect(slideView.slideListEl.style.transform).toBe(`translateX(${ - slideView.state.index * 100}%)`);
         expect(slideView.slideListEl.style.transitionDuration).toBe("0s");
 
-        slideView.showSlides({Immediately:false});
-        expect(slideView.slideListEl.style.transform).toBe(`translateX(${ -slideView.state.index * 100}%)`);
+        slideView.showSlides({Immediately: false});
+        expect(slideView.slideListEl.style.transform).toBe(`translateX(${ - slideView.state.index * 100}%)`);
         expect(slideView.slideListEl.style.transitionDuration).toBe("0.5s");
 
     });
+
+    test('slides_navi click', done => {
+        slideView.on('@move', e => {
+            expect(e.detail.direction).toBe(-1);
+            done();
+        });
+
+        simulateClick(slideView.qs('.slides_prev'));
+
+    });
+
+    test('touchstart', () => {
+        const [x,y] = [5, 7];
+        simulateTouch(slideView.el, 'touchstart', x, y);
+
+        expect(slideView.state.clicked).toBe(true);
+        expect(slideView.state.startIndex).toBe(slideView.state.index);
+        expect(slideView.state.startX).toBe(x);
+        expect(slideView.state.startY).toBe(y);
+        expect(slideView.state.startEvent).toBe(true);
+
+    });
+
+    test('touchmove', done => {
+        const [x,
+            y] = [21, 23];
+
+        slideView.on('@touchmove', e => {
+            expect(e.detail.x).toBe(x);
+            expect(e.detail.y).toBe(y);
+            done();
+        });
+
+        simulateTouch(slideView.el, 'touchmove', x, y);
+
+    });
+
+    test('touchend', done => {
+        const [x,y] = [12, 14];
+
+        slideView.on('@touchend', e => {
+            expect(e.detail.x).toBe(x);
+            expect(e.detail.y).toBe(y);
+            done();
+        });
+
+        simulateTouch(slideView.el, 'touchend', x, y);
+
+    });
+
+    function simulateClick(elem) {
+        // Create our event (with options)
+        var evt = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        // If cancelled, don't dispatch our event
+        var canceled = !elem.dispatchEvent(evt);
+    };
+
+    function simulateTouch(el, event, x, y) {
+        const e = document.createEvent('Event');
+        e.initEvent(event, true, true);
+        e.changedTouches = [
+            {
+                pageX: x,
+                pageY: y
+            }
+        ];
+        return el.dispatchEvent(e);
+    };
 
 });
