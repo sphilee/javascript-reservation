@@ -8,6 +8,21 @@ describe("tabView unit Test", () => {
     const dataCount = '10개';
 
     beforeAll(() => {
+        //support closest
+        window.Element.prototype.closest = function (selector) {
+            var el = this;
+            while (el) {
+                if (el.matches(selector)) {
+                    return el;
+                }
+                el = el.parentElement;
+            }
+        };
+
+    });
+
+    beforeEach(() => {
+
         // Set up our document body
         document.body.innerHTML = `<div class="event">
         <div class="section_event_tab">
@@ -145,18 +160,19 @@ describe("tabView unit Test", () => {
 
         tabView = new TabView('.event');
         tabView.render('category', data);
-    });
+
+    })
 
     test('initial', () => {
-
         expect(tabView.state.index).toBe(0);
         expect(tabView.state.categoryData[0]).toMatchObject(data);
         expect(tabView.countEl.innerHTML).toBe(dataCount);
         expect(tabView.qs('.active .more').style.display).toBe('block');
     });
 
-    test('seletedTab', async() => {
-        tabView.setIndex(1)
+    test('seletedTab', () => {
+        tabView
+            .setIndex(1)
             .setCategoryData()
             .renderCategory();
 
@@ -165,10 +181,36 @@ describe("tabView unit Test", () => {
         expect(tabView.countEl.innerHTML).toBe('3개');
     });
 
-    test('setIndex', async() => {
+    test('setIndex', () => {
         tabView.setIndex(2);
-
         expect(tabView.state.index).toBe(2);
     });
+
+    test('more click', () => {
+        simulateClick(tabView.qs('.more > .btn'));
+        expect(tabView.qsa('.active .item')).toHaveLength(8);
+
+    });
+
+    test('eventTab click', done => {
+        tabView.on('@tab', e => {
+            expect(e.detail.index).toBe(3);
+            done();
+        });
+
+        simulateClick(tabView.qs('.item[data-category="3"]'));
+
+    });
+
+    function simulateClick(elem) {
+        // Create our event (with options)
+        var evt = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        // If cancelled, don't dispatch our event
+        var canceled = !elem.dispatchEvent(evt);
+    };
 
 });
