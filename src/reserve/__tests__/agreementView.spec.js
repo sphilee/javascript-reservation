@@ -118,18 +118,26 @@ describe("agreementView unit Test", () => {
         </div>
     </div>`;
 
+        //support closest
+        window.Element.prototype.closest = function (selector) {
+            var el = this;
+            while (el) {
+                if (el.matches(selector)) {
+                    return el;
+                }
+                el = el.parentElement;
+            }
+        };
+
         agreementView = new AgreementView('.section_booking_form');
     });
 
     test('initial', () => {
-
         expect(agreementView.totalEl.innerHTML).toBe("");
     });
 
     test('render', () => {
-
         agreementView.render(ticketModel.getTotal());
-
         expect(agreementView.totalEl.innerHTML).toBe("16");
     });
 
@@ -148,4 +156,33 @@ describe("agreementView unit Test", () => {
         agreementView.removeError('email');
         expect(agreementView.emailEl.classList.contains('error')).toBe(false);
     });
+
+    test('btn_agreement click', () => {
+        const agreementBtn = agreementView.qs('.btn_agreement');
+        expect(agreementBtn.nextElementSibling.classList.contains('open')).toBe(false);
+        simulateClick(agreementBtn);
+        expect(agreementBtn.nextElementSibling.classList.contains('open')).toBe(true);
+    });
+
+    test('checker click', done => {
+        agreementView.on('@check', e => {
+            expect(e.detail.checked).toBe(true);
+            done();
+        });
+
+        simulateClick(agreementView.checkerEl);
+
+    });
+
+    function simulateClick(elem) {
+        // Create our event (with options)
+        var evt = new MouseEvent('click', {
+            bubbles: true,
+            cancelable: true,
+            view: window
+        });
+        // If cancelled, don't dispatch our event
+        var canceled = !elem.dispatchEvent(evt);
+    };
+
 });
