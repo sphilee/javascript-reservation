@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/sphilee/javascript-reservation/issues"
   },
-  "homepage": "https://github.com/sphilee/javascript-reservation#readme",
+  "homepage": "https://sphilee.github.io/javascript-reservation/",
   "dependencies": {
     "lodash": "^4.17.4",
     "lodash.throttle": "^4.1.1",
