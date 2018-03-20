@@ -47,7 +47,7 @@ describe.skip("bookingTicketView", () => {
 
         count = await page.$eval(`.qty:nth-child(${select}) .count_control_input`, e => +e.value);
         expect(count).toBe(SELECT3_COUNT+1);
-        totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
+        let totalCost = await page.$eval(`.qty:nth-child(${select}) .total_price`, e => +e.innerHTML);
         expect(totalCost).toBe((SELECT3_COUNT+1)*SELECT3_COST);
 
         select = 1;

@@ -1,6 +1,5 @@
 'use strict';
 
-import ticketModel from '../models/ticketModel';
 import ReserveButtonView from '../view/reserveButtonView';
 
 describe("reserveButtonView unit Test", () => {

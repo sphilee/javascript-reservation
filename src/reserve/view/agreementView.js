@@ -41,17 +41,17 @@ export default class extends View {
                 }));
             },
             phone : ()=>{
-                this.phoneEl.addEventListener('blur',e => this.emit('@phone',{
+                this.phoneEl.addEventListener('blur', e => this.emit('@phone',{
                     number : e.currentTarget.value 
                 }));
             },
             name : ()=>{
-                this.nameEl.addEventListener('blur',e => this.emit('@name',{
+                this.nameEl.addEventListener('blur', e => this.emit('@name',{
                     name : e.currentTarget.value 
                 }));
             },
             email : ()=>{
-                this.emailEl.addEventListener('blur',e => this.emit('@email',{
+                this.emailEl.addEventListener('blur', e => this.emit('@email',{
                     email : e.currentTarget.value 
                 }));
             }
