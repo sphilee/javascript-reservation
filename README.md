@@ -1,5 +1,5 @@
 ## JavaScript Level 4 Project.
 
 ### DEMO
-- [mainPage](http://sphilee.me/javascript-reservation/mainpage/)
-- [reservePage](http://sphilee.me/javascript-reservation/reserve/)
+- [mainPage](https://sphilee.github.io/javascript-reservation/mainpage/)
+- [reservePage](https://sphilee.github.io/javascript-reservation/reserve/)
