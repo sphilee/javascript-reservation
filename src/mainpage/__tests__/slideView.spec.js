@@ -132,8 +132,7 @@ describe("slideView unit Test", () => {
     });
 
     test('touchmove', done => {
-        const [x,
-            y] = [21, 23];
+        const [x, y] = [21, 23];
 
         slideView.on('@touchmove', e => {
             expect(e.detail.x).toBe(x);

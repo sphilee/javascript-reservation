@@ -11,7 +11,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['dist']),
+        new CleanWebpackPlugin(['docs']),
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor'
         }),
@@ -32,9 +32,9 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'docs'),
         filename: '[name].bundle.js',
-        publicPath: "/"
+        publicPath: "../"
     },
     module: {
         rules: [{
